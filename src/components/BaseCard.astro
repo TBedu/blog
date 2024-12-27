@@ -16,8 +16,8 @@ const {
   tags,
   word,
   time,
-  isBlog = true,
-  comment = true,
+  isBlog = false,
+  comment = false,
   url = decodeURIComponent(Astro.url.toString()),
 } = Astro.props as CardInfo;
 const displayDate = dayjs(pubDate).format(DATE_FORMAT);

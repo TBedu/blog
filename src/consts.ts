@@ -3,14 +3,14 @@
 
 // Site title and description
 export const SITE_LANG = "zh";
-export const SITE_TAB = "Frosti";
-export const SITE_TITLE = "Frosti 🧊";
-export const SITE_DESCRIPTION = "A blog template";
-export const DATE_FORMAT = "ddd MMM DD YYYY";
+export const SITE_TAB = "FeltSquiirel727";
+export const SITE_TITLE = "FeltSquiirel727";
+export const SITE_DESCRIPTION = "FeltSquiirel727's blog";
+export const DATE_FORMAT = "YYYY MM DD";
 
 // User profile information
-export const USER_NAME = "EveSunMaple";
-export const USER_SITE = "https://frosti.saroprock.com"
+export const USER_NAME = "FeltSquiirel727";
+export const USER_SITE = "https://blog.tbedu.top"
 export const USER_AVATAR = "/profile.webp";
 
 // Server and transition settings
@@ -28,32 +28,32 @@ export const CODE_THEME = {
 
 // Menu items for navigation
 export const menuItems = [
-  { id: "home", text: "Home", href: "/", svg: "material-symbols:home-outline-rounded", target: "_self" }, // Home page
-  { id: "about", text: "About", href: "/about", svg: "material-symbols:info-outline-rounded", target: "_self" }, // About page
+  { id: "home", text: "主页", href: "/", svg: "material-symbols:home-outline-rounded", target: "_self" }, // Home page
+  { id: "about", text: "关于", href: "/about", svg: "material-symbols:info-outline-rounded", target: "_self" }, // About page
   {
     id: "blog",
-    text: "Blogs",
+    text: "博客",
     href: "/blog",
     svg: "material-symbols:book-2-outline-rounded",
     target: "_self",
     subItems: [
       {
         id: "all",
-        text: "All blogs",
+        text: "所有博客",
         href: "/blog",
         svg: "material-symbols:ink-pen-outline-rounded",
         target: "_self",
       }, // All blog
       {
         id: "tech",
-        text: "Tech blogs",
+        text: "技术博客",
         href: "/blog/categories/tech",
         svg: "material-symbols:deployed-code-outline",
         target: "_self",
       }, // Technology category
       {
         id: "life",
-        text: "Life blogs",
+        text: "生活博客",
         href: "/blog/categories/life",
         svg: "material-symbols:earthquake-rounded",
         target: "_self",
@@ -62,22 +62,22 @@ export const menuItems = [
   }, // Blog page with sub-items
   {
     id: "project",
-    text: "Project",
+    text: "项目",
     href: "/project",
     svg: "material-symbols:code-blocks-outline",
     target: "_self",
   }, // Projects page
   {
     id: "friend",
-    text: "Friend",
+    text: "友链",
     href: "/friend",
     svg: "material-symbols:supervisor-account-outline-rounded",
     target: "_self",
   }, // Friends page
   {
     id: "contact",
-    text: "Contact",
-    href: "mailto:contact.evesunmaple@outlook.com", // Contact email
+    text: "联系",
+    href: "mailto:2877181146@qq.com", // Contact email
     target: "_blank", // Open in a new tab
     svg: "material-symbols:attach-email-outline-rounded",
   },
@@ -86,19 +86,19 @@ export const menuItems = [
 // Social media and contact icons
 export const socialIcons = [
   {
-    href: "https://afdian.net/a/saroprock",
+    href: "https://afdian.net/a/FeltSquiirel727",
     ariaLabel: "Support my work",
-    title: "Support my work",
+    title: "支持我",
     svg: "ri:cup-line",
   },
   {
-    href: "https://github.com/EveSunMaple",
+    href: "https://github.com/TBedu",
     ariaLabel: "Github",
     title: "Github",
     svg: "ri:github-line",
   },
   {
-    href: "https://space.bilibili.com/438392347",
+    href: "https://space.bilibili.com/3461568163481938",
     ariaLabel: "BiliBili",
     title: "BiliBili",
     svg: "ri:bilibili-line",
@@ -106,7 +106,7 @@ export const socialIcons = [
   {
     href: "/rss.xml",
     ariaLabel: "RSS Feed",
-    title: "RSS Feed",
+    title: "RSS",
     svg: "ri:rss-line",
   },
 ];

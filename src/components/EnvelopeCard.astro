@@ -2,6 +2,7 @@
 import dayjs from "dayjs";
 import CardHorizontal from "../layouts/CardHorizontal.astro";
 import type { EnvelopeInfo } from "../types";
+import { DATE_FORMAT } from "../consts";
 import { t } from "i18next";
 const {
   title,
@@ -15,7 +16,7 @@ const {
   time,
   url,
 } = Astro.props as EnvelopeInfo;
-const displayDate = dayjs(pubDate).format("ddd MMM DD YYYY");
+const displayDate = dayjs(pubDate).format(DATE_FORMAT);
 const hasTategories = categories && categories.length > 0;
 const hasTags = tags && tags.length > 0;
 const target = "_self";

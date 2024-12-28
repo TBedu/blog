@@ -1,7 +1,7 @@
 ---
 import GithubInfo from "../widget/GithubInfo.astro";
 import CardHorizontal from "../layouts/CardHorizontal.astro";
-const { title, image, desc, url, badge, target = "_blank" } = Astro.props;
+const { title, image, desc, url, github, badge, target = "_blank" } = Astro.props;
 ---
 
 <CardHorizontal title={title} image={image} url={url}>
@@ -13,6 +13,12 @@ const { title, image, desc, url, badge, target = "_blank" } = Astro.props;
     </a>
     <div class="m-2">{desc}</div>
     {badge && <div class="badge badge-ghost m-2">{badge}</div>}
-    <GithubInfo url={url} />
+    {
+      !github && (
+      <>
+        <GithubInfo url={url} />
+      </>
+    )
+    }
   </div>
 </CardHorizontal>

@@ -3,13 +3,13 @@
 
 // Site title and description
 export const SITE_LANG = "zh";
-export const SITE_TAB = "FeltSquiirel727";
-export const SITE_TITLE = "FeltSquiirel727";
-export const SITE_DESCRIPTION = "FeltSquiirel727's blog";
+export const SITE_TAB = "FeltSquirrel727";
+export const SITE_TITLE = "FeltSquirrel727";
+export const SITE_DESCRIPTION = "FeltSquirrel727's blog";
 export const DATE_FORMAT = "YYYY年MM月DD日";
 
 // User profile information
-export const USER_NAME = "FeltSquiirel727";
+export const USER_NAME = "FeltSquirrel727";
 export const USER_SITE = "https://blog.tbedu.top"
 export const USER_AVATAR = "/profile.webp";
 

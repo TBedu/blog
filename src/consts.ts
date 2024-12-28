@@ -39,22 +39,29 @@ export const menuItems = [
     subItems: [
       {
         id: "all",
-        text: "所有博客",
+        text: "所有",
         href: "/blog",
         svg: "material-symbols:ink-pen-outline-rounded",
         target: "_self",
       }, // All blog
       {
         id: "tech",
-        text: "技术博客",
-        href: "/blog/categories/技术博客",
+        text: "技术",
+        href: "/blog/categories/技术",
         svg: "material-symbols:deployed-code-outline",
         target: "_self",
       }, // Technology category
       {
+        id: "study",
+        text: "学习",
+        href: "/blog/categories/学习",
+        svg: "material-symbols:menu-book-outline-rounded",
+        target: "_self",
+      }, // Stydy category
+      {
         id: "life",
-        text: "生活博客",
-        href: "/blog/categories/生活博客",
+        text: "生活",
+        href: "/blog/categories/生活",
         svg: "material-symbols:earthquake-rounded",
         target: "_self",
       }, // Life category
@@ -86,27 +93,27 @@ export const menuItems = [
 // Social media and contact icons
 export const socialIcons = [
   {
-    href: "https://afdian.net/a/FeltSquiirel727",
-    ariaLabel: "Support my work",
-    title: "支持我",
-    svg: "ri:cup-line",
-  },
-  {
-    href: "https://github.com/TBedu",
-    ariaLabel: "Github",
-    title: "Github",
-    svg: "ri:github-line",
+    href: "https://mr.baidu.com/r/1vpwVIFGtDq?f=cp&rs=1011739487&ruk=YE2B0oUHIpmOcIx99pZIhA&u=4b5d73d51c8b223d&sid_for_share=99125_3",
+    ariaLabel: "Baidu",
+    title: "百度",
+    svg: "ri:baidu-fill",
   },
   {
     href: "https://space.bilibili.com/3461568163481938",
     ariaLabel: "BiliBili",
     title: "BiliBili",
-    svg: "ri:bilibili-line",
+    svg: "ri:bilibili-fill",
+  },
+  {
+    href: "https://github.com/TBedu",
+    ariaLabel: "Github",
+    title: "Github",
+    svg: "ri:github-fill",
   },
   {
     href: "/rss.xml",
     ariaLabel: "RSS Feed",
     title: "RSS",
-    svg: "ri:rss-line",
+    svg: "ri:rss-fill",
   },
 ];

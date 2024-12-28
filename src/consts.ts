@@ -6,7 +6,7 @@ export const SITE_LANG = "zh";
 export const SITE_TAB = "FeltSquiirel727";
 export const SITE_TITLE = "FeltSquiirel727";
 export const SITE_DESCRIPTION = "FeltSquiirel727's blog";
-export const DATE_FORMAT = "YYYY MM DD";
+export const DATE_FORMAT = "YYYY年MM月DD日";
 
 // User profile information
 export const USER_NAME = "FeltSquiirel727";

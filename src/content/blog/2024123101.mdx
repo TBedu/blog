@@ -1,0 +1,188 @@
+---
+title: "【我的世界】从零开始搭建自己的MC服务器"
+description: "【我的世界】从零开始搭建自己的Java版MC服务器，和好伙伴一起玩"
+pubDate: "2024 12 31"
+image: https://image.api.playstation.com/vulcan/img/cfn/11307uYG0CXzRuA9aryByTHYrQLFz-HVQ3VVl7aAysxK15HMpqjkAIcC_R5vdfZt52hAXQNHoYhSuoSq_46_MT_tDBcLu49I.png
+categories:
+  - 技术
+tags:
+  - 我的世界
+---
+
+import Warning from "../../components/blog/warning.astro";
+
+# 介绍
+
+---
+
+本文将手把手教你搭建自己Java版的MC服务器
+
+## 什么是服务器（狭义）？
+
+---
+
+**Minecraft服务器（Minecraft Server）** 可以使[玩家](https://zh.minecraft.wiki/w/%E7%8E%A9%E5%AE%B6)在线或通过本地局域网络和其他玩家一起玩Minecraft。在游戏内部，游戏为单人游戏运行服务器，这样做是为了使单人游戏体验与多人游戏体验保持一致，并使得对游戏所做的更改（例如错误修复）既适用于单人游戏又适用于多人游戏。官方服务器软件仅在发布状态的Java版上可用。基岩版服务器软件目前处于Alpha阶段。[^1]  
+
+## 服务器种类  
+
+---
+
+目前有多种服务器以独特的游戏内容、规则以及引入的社会结构而闻名。没有任何两个服务器是完全相同的，服务器类型之间的界线通常是模糊的无法区分的。许多特殊种类的服务器使用地图编辑器或在[创造模式](https://zh.minecraft.wiki/w/%E5%88%9B%E9%80%A0%E6%A8%A1%E5%BC%8F)中来建造自定义地图，使用[CraftBukkit](https://zh.minecraft.wiki/w/Bukkit#CraftBukkit)软件来提供附加功能。这些服务器多数面向[PvP](https://zh.minecraft.wiki/w/Tutorial:PvP)，还有一些面向生存模式、创造模式和极限模式的，一些服务器拥有经济系统，一些服务器有内置迷你游戏。[^1]  
+
+如果粗略划分，如果一个服务器是以[生存模式](https://zh.minecraft.wiki/w/%E7%94%9F%E5%AD%98%E6%A8%A1%E5%BC%8F)为基础的服务器称为生存服务器；一个服务器是以多种小游戏作为游玩基础的服务器称为小游戏服务器；亦或是提供一个服务器用以交流建筑经验的服务器称为建筑服务器；以RPG为基础的服务器称为RPG服务器；可能兼备以上多种功能的服务器且内含不同种服务器的服务器称为群组服务器。[^1]  
+
+# 教程
+
+## 运行环境  
+
+### 硬件设施  
+
+- 一台Minecraft服务器不需要一台高端机器，2核心的CPU足够开一个4、5人的小型服务器，但需要注意的是如果你想提高服务器性能，你需要的是更新的CPU架构和更高的主频，而不是更多的核心数量（例如一颗在2012年推出的有24核心但只有1.1GHz主频的至强处理器性能并不比最新的但核更少的处理器强大）。[^2]  
+- 如果你想长期开一个中大型服务器，Intel的酷睿和AMD的锐龙并不是明智之选，这些民用平台的处理器一般稳定性和拓展功能较差，且不支持稳定的ECC内存（DDR5除外），你需要的是Intel的至强W系列及至强可拓展处理器，或是AMD的线程撕裂者或霄龙处理器，这些适用于工作站或服务器的处理器一般稳定性强，但主频较低，在挑选时应选择较新且主频（或者睿频）在3GHz以上的处理器，且内存应在36GB以上且支持ECC。[^2]  
+- 只要你的电脑性能足够强劲，你可以在一台电脑上同时架设服务器并在该服务器上进行游戏。[^2]  
+
+---
+
+如果你想开一个原版服务器（无插件无模组）或者轻量插件服务器（如小型插件生存），建议最低配置是2c4g（CPU核心为2，RAM容量为4G，下同）  
+如果你想开更大型的插件服务器或模组服务器，建议最低配置是4c8g。值得注意的是，模组服务器十分耗费CPU资源和内存资源，因此，我建议给模组服务器预留更好的配置。
+
+---
+
+当然，内存频率越高，越大越好；CPU频率，IPC值和单核性能（特别是模组服）越高越好；硬盘读取速度越快越好，推荐固态硬盘[^3]
+
+本教程以 14c64g 服务器为例进行教学  
+
+### 操作系统  
+
+---
+
+Linux 多是CLI界面，对新手不太友好，但是兼容性好，占用低  
+新手建议选择 Windows Server  
+
+本教程以 Windows Server 2022 为例进行教学
+
+### Java  
+
+---
+
+**OpenJDK与OracleJDK的区别**
+
+OpenJDK与OracleJDK非常相似。OpenJDK是对Java的一种官方的开源参考实现。OpenJDK是一个开源代码库，几乎所有其他JDK都基于此构建。除了打包方式、许可证和一些表面上的差别外，OpenJDK与OracleJDK是一样的。[^1]  
+
+请注意：如果用于商业和生产用途，OracleJDK的OTN（Oracle技术网络）构建版本就需要一份付费的订阅才能使用。这似乎包含了运行Minecraft服务器的情况，即便是非盈利目的的。Oracle会提供他们自己的OpenJDK构建版，但是不会打包成那种易于安装的安装包格式。[^1]  
+
+---
+
+**Java版本要求**
+
+某些版本的Java版服务器要求特定的最低Java版本。以下是Minecraft服务器的一些主要最低Java版本要求：
+
+从1.12（17w13a）开始，运行Minecraft服务器的最低要求是Java 8。  
+从1.17（21w19a）开始，运行Minecraft服务器的最低要求是Java 16。  
+从1.18（1.18-pre2）开始，运行Minecraft服务器的最低要求是Java 17。  
+从1.20.5（24w14a）开始，运行Minecraft服务器的最低要求是Java 21，且操作系统要求为64位。  
+请注意，旧版的Minecraft可以运行在较新的Java版本上，例如Minecraft 1.16可以运行在Java 17上，Minecraft 1.18可以运行在Java 20上，反之亦然。  
+
+虽然服务器可以运行在旧版本的Java上，但建议使用最新版本，因为新版本可能带来更好的性能、更高的安全性和更少的漏洞。
+
+java的安装请参考：[https://zh.minecraft.wiki/w/Tutorial:%E6%9E%B6%E8%AE%BEJava%E7%89%88%E6%9C%8D%E5%8A%A1%E5%99%A8?variant=zh-cn#Java%E5%AE%89%E8%A3%85](https://zh.minecraft.wiki/w/Tutorial:%E6%9E%B6%E8%AE%BEJava%E7%89%88%E6%9C%8D%E5%8A%A1%E5%99%A8?variant=zh-cn#Java%E5%AE%89%E8%A3%85)
+
+### 网络连接  
+
+---
+
+如果在家搭建服务器，你需要有公网。检查方法如下。  
+1.打开[https://ipw.cn](https://ipw.cn)，查看IPv4地址  
+![屏幕截图.jpeg](https://www.helloimg.com/i/2025/01/01/6774a0e462b35.jpeg)  
+2.打开路由器后台，查看WAN口IPv4地址  
+![屏幕截图.png](https://www.helloimg.com/i/2025/01/01/6774a293c92c0.png)  
+如果看到的两个IPv4地址相同，那么你就有公网。如果没有也没有关系，可以用FRP连接（延迟普遍会更高）  
+
+## 服务端  
+
+---
+
+服务端核心选择，参考：[https://www.mslmc.cn/docs/other/choose-server-tips.html](https://www.mslmc.cn/docs/other/choose-server-tips.html)  
+服务端下载镜像站：[https://sync.mcsl.com.cn/](https://sync.mcsl.com.cn/)  
+
+## 开服！  
+
+---
+
+### 数据存放路径  
+
+---
+
+任意文件夹！路径最好不包含中文及特殊字符
+将下载的服务端核心（JAR文件）放入文件夹
+
+### 启动命令  
+
+---
+
+新建一个txt文件，内容像这样编辑，如果使用 Paper 作为服务的核心，您的启动命令可以使用[https://docs.papermc.io/misc/tools/start-script-gen](https://docs.papermc.io/misc/tools/start-script-gen)来生成
+```cmd
+@echo off
+java -Xmx1G -Xms1G -jar 服务端核心名称.jar nogui
+pause
+
+```
+`-Xmx1G` 是最大内存，表示最大内存是1G，根据实际情况修改  
+`-Xms1G` 是最小内存，表示最小内存是1G，根据实际情况修改，可以和最大内存数值一致  
+`服务端核心名称.jar` 是服务端核心名称，需修改为你下载的服务端核心的名字  
+
+然后修改为bat文件，双击运行
+
+### EULA
+
+---
+
+你会发现，没过多久，服务端退出了。  
+这是因为你需要同意Mojang的Eula[https://www.minecraft.net/zh-hans/eula](https://www.minecraft.net/zh-hans/eula)  
+
+这就需要你回到服务器的根目录（也就是你创建的那个放服务器核心的文件夹），发现新生成了一个叫 `eula.txt` 的文件，然后将其中的 `eula=false` 改为 `eula=true`  
+
+保存并关闭，再次双击运行bat文件，你的服务器就可以正常开启啦！想停止的话在控制台输入stop就可以啦！
+
+## 后续操作 
+
+### 加载插件和模组 
+
+---
+
+插件的装载最简单，只要丢进plugins文件夹就可以了（当然只有插件服有这个文件夹），如果有报错则说明不兼容或者是没装前置等问题，需要自行排查。  
+模组的装载比较麻烦，要分清客户端MOD和服务端MOD。  
+客户端MOD是只需装在客户端的MOD，无需装载到服务端，服务端MOD只能装在服务端，不能装在客户端。  
+当然，也有既要装在客户端，也要装在服务端的MOD，这就需要大家去自己慢慢查了，MOD那么多，我不可能每一种都给你们查好。  
+比较方便的办法是，腐竹先测试好，有一个客户端能连进去之后，把这个客户端打包发给玩家，不用每个玩家都自己装MOD了。  
+无论是插件还是模组，装完记得重启一下服务器哦！（不要用一些服务端自带的reload，一定要输入stop关上后重新打开）  
+
+### 加入服务器  
+
+---
+
+如果你或者你的朋友没有正版，请在 `server.properties` 文件中将 `online-mode=true` 改为 `online-mode=false` 
+
+<Warning>这样是有缺陷的，那就是无论是谁，只要用同一个id，登进去的就是同一个玩家账号。解决方法是加装登录插件，比如 Catseedlogin 或者 Authme。而且登进去的玩家会发现自己没有皮肤，要加装 SkinsRestorer 插件解决。 </Warning> 
+
+如果你经过第一步之后，发现自己有公网ip，那么这个时候就可以在客户端里的多人游戏→添加服务器里面的ip栏里填上（这里假定你的公网ip是111.111.111.111）111.111.111.111:25565，然后点击保存，就能看到你的服务器啦！  
+
+这里冒号后面的25565是你的服务器所占用的端口，默认值即为25565（你可以在1024-65535内随便改，但是不能是被占用的端口，如果不知道哪个端口被占用就不要动）  
+
+如果你用的是VPS或者面板服这一类，需要在 `server.properties` 文件中将 `server-port` 调整为服务商提供给你的任意端口，这时连接你服务器所用的ip后面的端口也要相应更改  
+
+### FRP  
+
+---
+
+推荐一个[https://chmlfrp.cn/](https://chmlfrp.cn/)  
+有问题联系我awa
+
+# 服务器推荐
+
+介绍地址：[https://play.mcmod.cn/sv20188110.html](https://play.mcmod.cn/sv20188110.html)
+服务器地址：`mc.tbedu.top`
+
+[^1]:摘自[https://zh.minecraft.wiki/w/%E6%9C%8D%E5%8A%A1%E5%99%A8](https://zh.minecraft.wiki/w/%E6%9C%8D%E5%8A%A1%E5%99%A8)  
+[^2]:摘自[https://zh.minecraft.wiki/w/Tutorial:%E6%9E%B6%E8%AE%BEJava%E7%89%88%E6%9C%8D%E5%8A%A1%E5%99%A8](https://zh.minecraft.wiki/w/Tutorial:%E6%9E%B6%E8%AE%BEJava%E7%89%88%E6%9C%8D%E5%8A%A1%E5%99%A8)
+[^3]:摘自[https://www.bilibili.com/opus/755514103672340483](https://www.bilibili.com/opus/755514103672340483)

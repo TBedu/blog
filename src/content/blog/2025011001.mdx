@@ -1,0 +1,271 @@
+---
+title: "QQ开放平台接入Koishi"
+description: "使用 Koishi 接入 QQ 和 QQ 频道的指南"
+pubDate: "2025 01 10"
+image: https://koishi.chat/logo.png
+categories:
+  - 技术
+tags:
+  - QQ机器人
+  - Koishi
+---
+
+import Warning from "../../components/blog/warning.astro";
+import LinkCard from "../../components/page/LinkCard.astro";
+
+本贴是使用 Koishi 接入 QQ 和 QQ 频道的指南。
+
+### ■ 企业绿色通道 ■  
+
+---
+
+如果您是企业用户，除了参考下面的教程创建 QQ 机器人以外，还可以添加 Koishi 客服 QQ：[2953529126](https://qm.qq.com/q/P8eMJkP5yI) ，获得一对一专属支持。
+
+### ■ 个人资格开放 ■  
+
+---
+
+目前个人创建群聊机器人的资格已面向所有用户开放。在机器人后台 **创建新的机器人** 后，机器人会自动获得群聊权限。遇到任何问题都可以在 Koishi 官网的 [参与讨论](https://koishi.chat/zh-CN/about/contact.html) 页中加入 Koishi 用户交流群进行讨论。  
+
+## 开始之前……
+
+---
+
+### 需要注意
+
+**从现在开始，需要严格按照本贴的指导操作。** 尤其注意不要做教程没有指导的事情。阅读本教程的用户有相当大的比例多选了 intents 或打开了 sandbox，**最终导致机器人无法连接或无法收到消息。** 请注意严格阅读教程操作，不要多做或漏做步骤。  
+
+<Warning>再次提醒，请严格按照本贴的指导操作，不要多做或漏做步骤。  
+如果你没有严格按照本贴操作而无法对接到 QQ 平台，这种情况下在用户群提问，可能被直接踢出，请一定注意。  
+在对接没有成功时，请先认真阅读本贴内容，检查自己是否做错了步骤。  </Warning>
+
+---
+
+### 需要决定
+
+你需要先决定这两件事——
+
+1. 你的身份：是 个人 还是 企业？
+企业需要你自己有个体户身份，或有一个正在运营的公司。个人身份不需要任何条件。
+
+2. 机器人的使用范围类型：是 全量 还是 白名单？
+- 如果创建全量机器人，那么你的机器人将可以被任何人添加到任何群。
+- 如果创建白名单机器人，只有你能够指定机器人添加的群。
+
+---
+
+# 教程步骤
+
+## 下载、安装和使用 Koishi
+
+先前往 Koishi 的官网下载并安装 Koishi。如果你是第一次接触 Koishi，我们推荐使用 Koishi 的 Windows 版本。
+
+<LinkCard
+  title="Koishi"
+  desc="创建跨平台、可扩展、高性能的机器人"
+  url="https://koishi.chat/zh-CN/"
+  img="https://koishi.chat/logo.png"
+  target="_blank"
+/>
+
+启动 Koishi 后，先点击左侧栏的「依赖管理」，之后点击右上角的「火箭」按钮，将 Koishi 更新至最新版本。
+
+![依赖管理](https://forum.koishi.xyz/uploads/default/optimized/2X/8/80ad19bb7ff77163861139e3d0b628ec799aa713_2_1035x631.png)
+
+## 创建 QQ 机器人
+
+前往 [QQ 开放平台](https://q.qq.com/) ，注册一个账号。
+
+如果准备以企业身份注册账号，请阅读 [文档](https://bot.q.qq.com/wiki) 以了解如何使用对公账户完成企业认证。如果遇到问题，可以通过帖子最上方的企业绿色通道联系 Koishi 客服。
+
+注册账号并登录 QQ 开放平台后，点击页面右侧的「创建机器人」。输入机器人的基本信息后点击「下一步」。之后，选择机器人的类型，最后点击「创建」。
+
+![创建机器人](https://forum.koishi.xyz/uploads/default/optimized/2X/5/5791cc51061b283990f847542201c9859481adab_2_1035x408.png)
+
+成功创建机器人后即可进入机器人后台。直接点击页面左侧的「开发设置」。在这里，你可以得到 **四项数据：机器人 QQ 号、ID、Token 和 Secret。记下这些数据，千万不要泄漏它们。**
+
+![开发设置-机器人后台](https://forum.koishi.xyz/uploads/default/optimized/2X/1/18ff9ad85b88198b846c5a8f62ad1c8ba2ba158e_2_1035x421.png)
+
+## 将 Koishi 对接机器人
+
+回到 Koishi，点击左侧栏的「插件配置」，翻到插件列表的下方找到「adapter-qq」插件。分别填写需要的数据。**注意此处数据的需求和顺序都和上文机器人后台中的不相同，请仔细对照后填写。**
+
+之后，在 机器人类型 （`type`）栏选择公域（`public`）。
+
+填写完毕后，点击右上角的「保存」按钮。
+
+![插件配置](https://forum.koishi.xyz/uploads/default/optimized/2X/4/487f95e4435fa46f4d6a2f3aec1527a35068b283_2_1035x631.png)
+
+接下来，翻到下方的「intents」配置项。
+
+- **如果你准备在 QQ 群中使用，勾选 `USER_MESSAGE`。**  
+- **如果你准备在 QQ 频道的 频道私信 列表中使用，勾选 `DIRECT_MESSAGES`。**  
+- **如果你准备在 QQ 频道中使用，且你的机器人是公域机器人，勾选 `PUBLIC_GUILD_MESSAGES`。**  
+- **勾选 `MESSAGE_AUDIT`。**  
+
+**注意此处若填写错误将会直接导致机器人无法接入。填写时请务必仔细。** 如果遇到问题，可以加入帖子最上方的用户交流群提问。企业用户可以通过企业绿色通道联系 Koishi 客服。  
+
+填写完毕后，点击右上角的「保存」按钮。
+
+![插件配置](https://forum.koishi.xyz/uploads/default/optimized/2X/5/5f348e6ae071070c90c94f252a7b2638409922e5_2_1035x631.png)
+
+最后，点击右上角播放图标的「启动」按钮。插件会输出一条成功连接的日志，同时，Koishi 窗口的右下角已点亮绿灯。
+
+![插件配置](https://forum.koishi.xyz/uploads/default/optimized/2X/f/fe7855249fea703c3c16c3824a1ca62d3bbf3009_2_1035x631.png)
+
+## 将机器人拉入测试群/测试频道
+
+你可以选择在 QQ 群或 QQ 频道中测试你的机器人。
+
+### 在 QQ 群中测试
+
+首先，将你的手机 QQ 升级至最新版（不低于 8.9.90），并在手 Q 内创建一个自己为群主的测试群。
+
+之后，回到 QQ 机器人的网页后台，点击左侧的「沙箱配置」，翻到页面最下方，在「在 QQ 群配置」一栏选择刚刚创建的测试群。
+
+![沙箱配置](https://forum.koishi.xyz/uploads/default/optimized/2X/4/4603de6557770594451d7329e0f22bfb37ca541b_2_1035x469.png)
+
+接着，在手 Q 中打开测试群，点击右上角的菜单图标，向下翻动找到「群机器人」选项，进入并添加刚刚创建的机器人。现在，你已可以在 QQ 使用自己的机器人。输入「@」并选择机器人，然后在后面输入「help」并发送。你可以看到机器人正常工作。
+
+恭喜，你刚刚创建了自己的机器人。
+
+### 在 QQ 频道中测试
+
+首先，将你的手机 QQ 升级至最新版（不低于 8.9.90），并在手 Q 内创建一个自己为频道主的测试频道。
+
+之后，回到 QQ 机器人的网页后台，点击左侧的「沙箱配置」，在最上方的「在 QQ 频道配置」一栏选择刚刚创建的测试频道。
+
+![沙箱配置](https://forum.koishi.xyz/uploads/default/optimized/2X/4/4603de6557770594451d7329e0f22bfb37ca541b_2_1035x469.png)
+
+接着，在手 Q 中打开测试频道，在频道列表区域，点击最上方的 Header 大卡（背景图），点击「机器人」，翻到页面最底部并添加刚刚创建的机器人。现在，你已可以在 QQ 使用自己的机器人。输入「@」并选择机器人，然后在后面输入「help」并发送。你可以看到机器人正常工作。
+
+恭喜，你刚刚创建了自己的机器人。
+
+# 后续操作
+
+## 配置斜杠指令
+
+QQ 机器人的斜杠指令功能使你可以直接点选需要使用的指令，而无需手动输入。
+
+首先，在 Koishi 中点击左侧栏的「插件配置」，接着选择插件列表中最上方的「全局配置」。
+
+向下翻动到「prefix」配置项，并按照图中填写。第一项为「/」，第二项不填。 **这使得你的机器人在带斜杠和不带斜杠的情况下都能正确触发指令。**
+
+![插件配置](https://forum.koishi.xyz/uploads/default/optimized/2X/3/3842d452f39948a9304b7089fe85f7dc77e685cd_2_1035x631.png)
+
+最后，点击右上角的「对勾」图标，重启 Koishi。
+
+接下来，回到 QQ 机器人后台，点击左侧的「发布设置」，然后点击「功能配置」右侧的「配置」按钮。
+
+![机器人后台](https://forum.koishi.xyz/uploads/default/optimized/2X/6/6914919a02044bcc98f5e717ee45a74a5d0f2e42_2_1035x306.png)
+
+选择「指令」选项卡，点击右上角的「配置」，并在这里配置机器人的可用指令。
+
+![机器人后台](https://forum.koishi.xyz/uploads/default/optimized/2X/d/d85dfd2bd6bc86155f3a3433ea7677469a926d73_2_1035x493.png)
+
+配置完毕后，点击「保存」。现在，你已经可以使用斜杠指令。
+
+## 提测与上线
+
+机器人准备完毕后，你可以开始进行提测与上线步骤。
+
+在提测前，你应当完成上方的「配置斜杠指令」步骤，并确保你的机器人已经有可用的指令。
+
+打开 QQ 机器人后台，点击左侧的「发布设置」，然后点击「自测报告」内的「下载模板」，下载一份自测报告模板。
+
+![机器人后台](https://forum.koishi.xyz/uploads/default/optimized/2X/6/6914919a02044bcc98f5e717ee45a74a5d0f2e42_2_1035x306.png)
+
+认真自测并填写此模板。自测完毕后，上传自测报告，并点击「上线机器人」。腾讯将会人工审核你的机器人，并准许上线。
+
+# 疑难解答
+
+## 遇到问题
+
+如果你遇到问题，你应当首先收集与问题有关的全部信息。[「Koishi 用户交流群群规」](https://forum.koishi.xyz/t/topic/555) 贴中给出了收集信息的方法：
+
+**提问时需要附带下列内容（通称「四项信息」）**  
+
+1. 问题的详细说明：包括「我想要做什么」、「我已经做了什么」、「在什么操作的途中出了问题」
+
+> 很多用户会直接发一张 Koishi 正常运行的图到群里，没有人能解答这样的问题  
+
+2. Koishi 窗口左下角的设备信息：点击左下角显示的 Koishi 版本，即可复制环境信息  
+3. 配置截图：与问题有关的配置截图 + 你修改过的配置截图  
+
+> 如果是某个插件未能正常工作，那么你需要截图完整的插件配置
+如果你修改过任何配置（包括全局配置），都要截图你修改过的配置
+
+4. 完整日志：截图 从问题发生前 Koishi 的启动开始，到此刻为止的全部的日志，推荐使用 长截图 功能；如果日志过长的话也可打包（压缩）上传完整日志到群文件，日志的获取可以查看下面的方法  
+
+---
+
+**Koishi 桌面收集日志的方法（二选一即可）：**
+
+**方法一**  
+
+1. 点按『「开始」菜单-所有应用-Windows工具』，在打开的文件夹中双击启动「事件查看器」  
+2. 在左侧选择「Windows日志-应用（Application）」  
+3. 在右侧选择「另存为所有事件」并保存为一个文件  
+4. 在群内发送这个文件  
+
+**方法二**  
+
+1. 点按通知区域的「Koishi」图标，然后点按「高级-打开数据目录」，然后进入「data」文件夹  
+2. 在打开的文件夹中找到「logs」文件夹，在其上单击右键或长按，选择「压缩为zip文件」  
+3. 在群内发送这个文件  
+
+### Koishi 点亮黄灯
+
+#### 四项数据填写错误
+
+Koishi 插件配置内，填写数据的需求和顺序都和上文机器人后台中的不相同，请仔细对照后填写。
+
+#### intents 配置错误
+
+如果插件的运行日志内出现如下字样（disallowed intents 字样）：
+
+```log
+[W] adapter disallowed intents, will retry in 5s...
+```
+
+或如下字样（1006 字样）：
+
+```log
+[W] adapter failed to connect to wss://api.sgroup.qq.com/websocket, code: 1006, will retry in 5s...
+```
+
+说明你的 intents 配置项配置错误。
+
+翻到上方，重新根据教程配置 intents。**注意你只能启用你具有权限的 intents。如果你不清楚你是否具有权限，那么就是没有，需要独立申请。**
+
+#### 未配置源IP白名单  
+
+```log
+[W] qq GET /gateway response: { message: '接口访问源IP不在白名单', code: 11298, err_code: 40023002, trace_id: '39d4f3ec32a8add7c5ac5abdaaf8dc00' }
+[W] adapter Error: Unauthorized, will retry in 5s...
+```
+
+这是因为在QQ开放平台的后续更新中  
+对用户要求 需要填入允许接入机器人的 源IP白名单  
+
+所以你需要在q.qq.com的对应的地方（应该是黄色标志的这里）
+
+![机器人后台](https://forum.koishi.xyz/uploads/default/original/2X/4/47f807e0859b6bf3acdba0c94df7bceb039d696c.png)
+
+找到对应的配置项，填入你的对应IP，这样就可以接入QQ开放平台的机器人了
+
+![机器人后台](https://forum.koishi.xyz/uploads/default/optimized/2X/a/a216db409b4d32c54d8d50ab5db7a3bc24063507_2_1035x582.png)
+
+### 部分图片无法发送
+
+QQ 并未提供发送本地图片的功能，但 Koishi 提供了此功能。 可以查看下方的帖子进行配置。
+
+<LinkCard
+  title="腾讯官方群聊机器人发图问题"
+  desc="①利用 公网部署 | Koishi，使你可以用手机流量访问你的 koishi （记得保护自己的 koishi 实例，安装 auth 插件防止其他人修改你的 koishi 配置） …"
+  url="https://forum.koishi.xyz/t/topic/5960"
+  img="https://forum.koishi.xyz/uploads/default/original/1X/72b32c99d52e391ce7dfc08d7fff86bd50ae1d03.png"
+  target="_blank"
+/>
+
+未来如果 QQ 提供了此功能，那么就不需要再进行配置。

@@ -19,6 +19,8 @@ import Warning from "../../components/blog/warning.astro";
 
 ---
 
+## 项目介绍  
+
 要用到  jonssonyan 开发的开源项目 Cloudflare Workers Proxy，它是一个通用的代理程序。
 
 > **Cloudflare Workers Proxy**  
@@ -26,6 +28,8 @@ import Warning from "../../components/blog/warning.astro";
 加速地址：[https://github.tbedu.top/jonssonyan/cf-workers-proxy](https://github.tbedu.top/jonssonyan/cf-workers-proxy)  
 
 ---
+
+## 注册账号
 
 先去 Cloudflare 注册一个账号
 
@@ -41,35 +45,57 @@ import Warning from "../../components/blog/warning.astro";
 
 ---
 
+## 教程
+
 注册好之后，新建一个 Workers
+
+### 步骤1
 
 侧边栏向下滑动  
 ![QQ20250112-201443.png](https://www.helloimg.com/i/2025/01/12/6783b29033266.png)
 
+### 步骤2
+
 点击 `Workers 和 Pages`  
 ![QQ20250112-201733.png](https://www.helloimg.com/i/2025/01/12/6783b28f7a17e.png)
+
+### 步骤3
 
 点击 `创建`  
 ![QQ20250112-201830.png](https://www.helloimg.com/i/2025/01/12/6783b29045551.png)
 
+### 步骤4
+
 进入你创建的 Workers 的主页，点击 `编辑代码`  
 ![QQ20250112-203027.png](https://www.helloimg.com/i/2025/01/12/6783b5a2d43e0.png)
+
+### 步骤6
 
 复制 [https://github.tbedu.top/jonssonyan/cf-workers-proxy/blob/main/_worker.js](https://github.tbedu.top/jonssonyan/cf-workers-proxy/blob/main/_worker.js) 中的所有内容，粘贴到红色方框中，然后点击 `部署`  
 ![QQ20250112-203142.png](https://www.helloimg.com/i/2025/01/12/6783b5a331ede.png)
 
+### 步骤7
+
 返回你创建的 Workers 的主页，点击 `设置`  
 ![QQ20250112-203753.png](https://www.helloimg.com/i/2025/01/12/6783b7893596b.png)
 
+### 步骤8
+
 按图示操作，新建环境变量  
 ![QQ20250112-203906.png](https://www.helloimg.com/i/2025/01/12/6783b7898e2a8.png)
+
+### 步骤9
 
 类型选择 `纯文本` ，名称填写 `PORXY_HOSTNAME` ，值填写 `github.com` ，点击 `部署`。  
 <Info>因为已经笔者已经创建了这个环境变量，所以报错</Info>  
 ![QQ20250112-203959.png](https://www.helloimg.com/i/2025/01/12/6783b789e5aae.png)
 
+### 步骤10
+
 在菜单 设置 > 域和路由，配置自定义域名，因为 Cloudflare 提供的默认域名 xxx.workers.dev 被墙了，我们在国内网络下用不了。需要将自己的域名托管在 Cloudflare，在 workers 中配置好域名之后，Cloudflare 会自动解析二级域名，同时会自动配置 https，非常方便。  
 ![QQ20250112-205004.png](https://www.helloimg.com/i/2025/01/12/6783b9de73733.png)
+
+## 总结
 
 如果你自定义的域名是 github.tbedu.top ，那么你访问 GitHub 代理的地址就是 [https://github.tbedu.top/](https://github.tbedu.top/) ，和 [https://github.com/](https://github.tbedu.top/) 是同样的效果，而且速度更快。  
 ![QQ截图20250112205638.png](https://www.helloimg.com/i/2025/01/12/6783bc021fa38.png)  

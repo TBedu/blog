@@ -12,6 +12,7 @@ tags:
 import LinkCard from "../../components/page/LinkCard.astro";
 import Info from "../../components/blog/info.astro";
 import Warning from "../../components/blog/warning.astro";
+import Error from "../../components/blog/error.astro";
 
 众所周知，由于 Great Firewall，GitHub 在国内访问速度堪忧，经常出现访问不了的情况。
 
@@ -25,7 +26,9 @@ import Warning from "../../components/blog/warning.astro";
 
 > **Cloudflare Workers Proxy**  
 项目地址：[https://github.com/jonssonyan/cf-workers-proxy](https://github.com/jonssonyan/cf-workers-proxy)  
-加速地址：[https://github.tbedu.top/jonssonyan/cf-workers-proxy](https://github.tbedu.top/jonssonyan/cf-workers-proxy)  
+~~加速地址：[https://github.tbedu.top/jonssonyan/cf-workers-proxy](https://github.tbedu.top/jonssonyan/cf-workers-proxy)~~  
+
+<Error>请一定在 规则 中配置对 login 等表单页面的屏蔽，否则你的网站会被举报！！！</Error>
 
 ---
 
@@ -71,7 +74,7 @@ import Warning from "../../components/blog/warning.astro";
 
 ### 步骤5
 
-复制 [https://github.tbedu.top/jonssonyan/cf-workers-proxy/blob/main/_worker.js](https://github.tbedu.top/jonssonyan/cf-workers-proxy/blob/main/_worker.js) 中的所有内容，粘贴到红色方框中，然后点击 `部署`  
+复制 [https://github.com/jonssonyan/cf-workers-proxy/blob/main/_worker.js](https://github.tbedu.top/jonssonyan/cf-workers-proxy/blob/main/_worker.js) 中的所有内容，粘贴到红色方框中，然后点击 `部署`  
 ![QQ20250112-203142.png](https://www.helloimg.com/i/2025/01/12/6783b5a331ede.png)
 
 ### 步骤6

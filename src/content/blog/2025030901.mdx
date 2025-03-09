@@ -1,0 +1,111 @@
+---
+title: "用 Cloudflare Workers 搭建 GitHub 文件代理加速"
+description: "告别 Github 访问不上，手把手教你用 Cloudflare Workers 搭建 GitHub 文件代理加速服务，嘎嘎快！"
+pubDate: "2025 03 09"
+image: https://tse3-mm.cn.bing.net/th/id/OIP-C.ae2prUSZPLC2Ii0sl74TIAHaEK?rs=1&pid=ImgDetMain
+categories:
+  - 技术
+tags:
+  - Cloudflare
+---
+
+import LinkCard from "../../components/page/LinkCard.astro";
+import Warning from "../../components/blog/warning.astro";
+
+众所周知，由于 Great Firewall 的缘故，GitHub 在国内访问速度堪忧，经常出现访问不了的情况。
+
+今天教大家如何用 Cloudflare Workers 给 GitHub 文件进行加速。
+
+---
+
+## 项目介绍  
+
+要用到  hunshcn 开发的开源项目 gh-proxy，它是一个 Github Release、archive以及项目文件的加速项目。
+
+> **gh-proxy**  
+项目地址：[https://github.com/hunshcn/gh-proxy](https://github.com/hunshcn/gh-proxy)  
+
+---
+
+## 注册账号
+
+先去 Cloudflare 注册一个账号
+
+注册教程参考如下
+
+<LinkCard
+  title="Cloudflare教程：如何注册账户、购买域名、开启免费CDN服务？"
+  desc="作者 – 椅栏听风"
+  url="https://oyouoo.com/cloudflare-tutorial/"
+  img="https://oyouoo.com/wp-content/uploads/2024/12/avatar-logo-150x150.png"
+  target="_blank"
+/>
+
+---
+
+## 教程
+
+注册好之后，新建一个 Workers
+
+### 步骤1
+
+侧边栏向下滑动  
+![QQ20250112-201443.png](https://www.helloimg.com/i/2025/01/12/6783b29033266.png)
+
+### 步骤2
+
+点击 `Workers 和 Pages`  
+![QQ20250112-201733.png](https://www.helloimg.com/i/2025/01/12/6783b28f7a17e.png)
+
+### 步骤3
+
+点击 `创建`  
+![QQ20250112-201830.png](https://www.helloimg.com/i/2025/01/12/6783b29045551.png)
+
+### 步骤4
+
+进入你创建的 Workers 的主页，点击 `编辑代码`  
+![QQ20250112-203027.png](https://www.helloimg.com/i/2025/01/12/6783b5a2d43e0.png)
+
+### 步骤5
+
+复制 [https://cdn.jsdelivr.net/gh/hunshcn/gh-proxy@master/index.js](https://cdn.jsdelivr.net/gh/hunshcn/gh-proxy@master/index.js) 中的所有内容，粘贴到如图红色方框中，然后点击 `部署`，附图为过时的图片，仅供参考  
+![QQ20250112-203142.png](https://www.helloimg.com/i/2025/01/12/6783b5a331ede.png)
+
+### 步骤6
+
+在菜单 设置 > 域和路由，配置自定义域名，因为 Cloudflare 提供的默认域名 xxx.workers.dev 被墙了，我们在国内网络下用不了。需要将自己的域名托管在 Cloudflare，在 workers 中配置好域名之后，Cloudflare 会自动解析二级域名，同时会自动配置 https，非常方便。  
+![QQ20250112-205004.png](https://www.helloimg.com/i/2025/01/12/6783b9de73733.png)
+
+### 附录：自定义主页
+
+该操作为可选操作
+
+```js
+const ASSET_URL = 'https://hunshcn.github.io/gh-proxy/'
+```
+
+将自己的HTML文件托管至服务器，然后将`https://hunshcn.github.io/gh-proxy/`替换成你的HTML地址，例如：`https://www.tbedu.top/assets/pages/gh-porxy/`
+
+## 总结
+
+如果你自定义的域名是 github.tbedu.top ，那么你访问 GitHub 代理的地址就是 https://github.tbedu.top/[完整的Github文件地址]
+示例：[https://github.tbedu.top/https://github.com/EasyTier/EasyTier/releases/download/v2.2.0/easytier-windows-x86_64-v2.2.0.zip](https://github.tbedu.top/https://github.com/EasyTier/EasyTier/releases/download/v2.2.0/easytier-windows-x86_64-v2.2.0.zip)
+
+**测速**
+
+时间：2025/01/12
+
+![QQ截图20250112205638.png](https://www.helloimg.com/i/2025/01/12/6783bc021fa38.png)  
+![QQ截图20250112205741.png](https://www.helloimg.com/i/2025/01/12/6783bc05ea371.png)  
+
+<Warning>Free 账户，每日 10 万次请求，如果代理网页请求会比较多，需要注意一下使用量</Warning>
+
+**笔者搭建的代理网站**
+<LinkCard
+  title="GitHub下载加速"
+  desc="提供GitHub下载加速服务"
+  url="https://www.tbedu.top/gh-porxy/"
+  img="https://www.helloimg.com/i/2025/01/12/6783841a2aa9e.png"
+  target="_blank"
+/>
